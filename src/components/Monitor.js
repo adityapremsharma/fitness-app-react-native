@@ -23,16 +23,20 @@ export default class Monitor extends React.Component {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.distance}>
-            <Text style={styles.textStyle}>{distance}</Text>
+            <Text style={styles.textStyle}>{distance}<Text style={{fontSize: 36}}> m</Text></Text>
             </View>
             <View style={styles.row}>
                 <View>
-                    <FontAwesome5 name="running" size={24} color="white" />
-                    <Text style={{color: "white"}}>{pace} m/s</Text>
+                <View style={{marginLeft: 10, marginBottom: 5}}>
+                    <FontAwesome5 name="running" size={24} color="#e91e63" />
+                    </View>
+                    <Text style={{color: "#777"}}>{pace >= 0 ? pace : 0} m/s</Text>
                 </View>
                 <View>
-                    <Ionicons name="time" size={24} color="white" />
-                    <Text style={{color: "white"}}>{TimeFormat.fromS(duration, 'mm:ss')}</Text>
+                <View style={{marginLeft: 5, marginBottom: 5}}>
+                    <Ionicons name="time" size={24} color="#e91e63" />
+                    </View>
+                    <Text style={{color: "#777"}}>{TimeFormat.fromS(duration, 'mm:ss')}</Text>
                 </View>
             </View>
         </SafeAreaView>
@@ -43,7 +47,7 @@ export default class Monitor extends React.Component {
 const styles = StyleSheet.create({
     container: {
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height / 2,
+        height: Dimensions.get('window').height / 1.8,
         backgroundColor: "black",
         
         
@@ -52,13 +56,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
+        marginTop: 50
     },
     textStyle: {fontSize: 72, color: "#777"},
     row: {
         // flex: .4,
         flexDirection: "row",
         justifyContent: "space-between",
-        marginHorizontal: 20,
-        marginBottom: 40
+        marginHorizontal: 30,
+        marginBottom: 30
     }
 })

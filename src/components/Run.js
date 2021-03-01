@@ -48,8 +48,7 @@ export default class Run extends React.Component {
         
     render() {
         const {latitude, longitude} = this.props
-        const {trackPosition, distance, pace
-        } = this.state
+        const {trackPosition, distance, pace} = this.state
         const currentPosition = trackPosition.length === 0 ? {coords: {latitude, longitude}} : trackPosition[trackPosition.length - 1]
 
     return (
@@ -57,7 +56,7 @@ export default class Run extends React.Component {
     <Monitor {...{distance, pace}} />
       <MapView ref={this.map} style={styles.map} initialRegion={{latitude, longitude, latitudeDelta: 0.001, longitudeDelta: 0.01}}>
         <Marker coordinate={currentPosition.coords} />
-          <Polyline coordinates={trackPosition.map(position => position.coords)} strokeWidth={10} strokeColor="#00FF00" />
+          <Polyline coordinates={trackPosition.map(position => position.coords)} strokeWidth={10} strokeColor="rgba(119,119,119, 0.6)" />
       </MapView>
     </View>
     )
