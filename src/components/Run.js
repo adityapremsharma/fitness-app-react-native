@@ -1,15 +1,17 @@
 import React from 'react'
-import { View, Text, StyleSheet, Dimensions } from 'react-native'
+import { View, StyleSheet, Dimensions } from 'react-native'
 import MapView, {Marker, Polyline} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as turf from '@turf/turf'
 
 import Monitor from './Monitor'
+import {Context as FitnessContext} from "../context/FitnessContext"
 
 export default class Run extends React.Component {
     map = React.createRef()
 
-    state = {trackPosition: [], distance: 0, pace: 0}
+    state = {trackPosition: []}
+    static contextType = FitnessContext
 
     async componentDidMount() {
         this.listener = await Location.watchPositionAsync({accuracy: 4, timeInterval: 1000, distanceInterval: 1}, this.onPositionChange) 
@@ -30,7 +32,8 @@ export default class Run extends React.Component {
     computePace(delta, lastPosition, position) {
         const time = (position.timestamp - lastPosition.timestamp) / 1000
         const pace = Math.round(delta / time)
-        return pace
+        
+        return {pace, time}
     }
     
 
@@ -41,22 +44,29 @@ export default class Run extends React.Component {
         const lastPosition = this.state.trackPosition.length === 0 ? {coords: {latitude, longitude}} : this.state.trackPosition[this.state.trackPosition.length - 1]
         const delta = this.distanceBetween(lastPosition, position)
 
-        this.setState({pace: this.computePace(delta, lastPosition, position)})
-        this.setState({distance: this.state.distance + this.distanceBetween(lastPosition, position)})
+        const {pace, time} = this.computePace(delta, lastPosition, position)
+        const {state, setDistance, setPace, setTime} = this.context
+        // this.setState({pace: this.computePace(delta, lastPosition, position)})
+        state.start ? pace >= 0 && setPace(pace) : null
+        state.start ? time >= 0 && setTime(state.duration + time) : null
+    
+        // this.setState({distance: this.state.distance + this.distanceBetween(lastPosition, position)})
+        state.start ? setDistance(state.distance + this.distanceBetween(lastPosition, position)) : null
         this.setState({trackPosition: [...this.state.trackPosition, position]})
     }
         
     render() {
         const {latitude, longitude} = this.props
-        const {trackPosition, distance, pace} = this.state
+        const {trackPosition} = this.state
         const currentPosition = trackPosition.length === 0 ? {coords: {latitude, longitude}} : trackPosition[trackPosition.length - 1]
+        const {state: {distance, pace, start}} = this.context
 
     return (
     <View style={styles.container}>
     <Monitor {...{distance, pace}} />
       <MapView ref={this.map} style={styles.map} initialRegion={{latitude, longitude, latitudeDelta: 0.001, longitudeDelta: 0.01}}>
         <Marker coordinate={currentPosition.coords} />
-          <Polyline coordinates={trackPosition.map(position => position.coords)} strokeWidth={10} strokeColor="rgba(119,119,119, 0.6)" />
+          <Polyline coordinates={trackPosition.map(position => position.coords)} strokeWidth={10} strokeColor={start ? "rgba(57,255,20, .6)" : "rgba(233, 30, 99, .6)"} />
       </MapView>
     </View>
     )

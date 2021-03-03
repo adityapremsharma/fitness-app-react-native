@@ -22,6 +22,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Main from "./src/screens/Main"
+import { Provider as FitnessProvider } from './src/context/FitnessContext';
 
 function Feed() {
 
@@ -42,7 +43,7 @@ function Profile() {
 
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+const MyTabs = () => {
   return (
     <Tab.Navigator
       initialRouteName="Feed"
@@ -84,10 +85,16 @@ function MyTabs() {
   );
 }
 
-export default function App() {
+
+// const App =  NavigationContainer(MyTabs)
+const App = () => {
   return (
     <NavigationContainer>
       <MyTabs />
     </NavigationContainer>
   );
+}
+
+export default () => {
+  return <FitnessProvider><App /></FitnessProvider>
 }
