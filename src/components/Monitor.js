@@ -1,15 +1,14 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { View, SafeAreaView, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'; 
-import { FontAwesome5 } from '@expo/vector-icons'; 
 import TimeFormat from "hh-mm-ss"
 
 import {Context as FitnessContext} from "../context/FitnessContext"
 
-export default function Monitor({distance, pace}) {
+export default function Monitor() {
 
     const [duration, setDuration] = useState(0)
-    const {state: {start}, setStart} = useContext(FitnessContext)
+    const {state: {start, distance, pace}, setStart} = useContext(FitnessContext)
 
     useEffect(() => {
         const interval = start ? setInterval(() => setDuration(duration + 1), 1000) : null
@@ -28,10 +27,10 @@ export default function Monitor({distance, pace}) {
             </View>
             <View style={styles.row}>
                 <View>
-                <View style={{marginLeft: 10, marginBottom: 5}}>
-                    <FontAwesome5 name="running" size={24} color="#e91e63" />
+                <View style={{marginLeft: 5, marginBottom: 5}}>
+                    <Ionicons name="speedometer" size={24} color="#e91e63" />
                     </View>
-                    <Text style={{color: "#777"}}>{pace >= 0 ? pace : 0} m/s</Text>
+                    <Text style={{color: "#777"}}>{pace >= 0 ? Math.round(pace) : 0} m/s</Text>
                 </View>
                 <View>
                     <TouchableOpacity

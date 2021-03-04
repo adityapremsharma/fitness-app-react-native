@@ -81,6 +81,16 @@ const MyTabs = () => {
           ),
         }}
       />
+      <Tab.Screen
+        name="Name"
+        component={Profile}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }

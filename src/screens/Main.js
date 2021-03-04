@@ -27,7 +27,7 @@ export default function Main() {
 
   if(!ready) {
     return <View style={styles.container}>
-            <ActivityIndicator size="large" color="white" />
+            <ActivityIndicator size="large" color="#e91e63" />
           </View>
   }
   return (

@@ -10,6 +10,8 @@ const fitnessReducer = (state, action) => {
             return {...state, duration: action.payload}
         case "START":
             return {...state, start: action.payload}
+        case "KCAL":
+            return {...state, kcal: action.payload}
         default:
             return state
     }
@@ -27,5 +29,8 @@ const setTime = (dispatch) => {
 const setStart = (dispatch) => {
         return (getStart) => dispatch({type: "START", payload: getStart})
     }
+const setKcal = (dispatch) => {
+        return (getKcal) => dispatch({type: "KCAL", payload: getKcal})
+    }
 
-export const {Context, Provider} = createDataContext(fitnessReducer, {setDistance, setPace, setTime, setStart}, {distance: 0, pace: 0, duration: 0, start: false})
+export const {Context, Provider} = createDataContext(fitnessReducer, {setDistance, setPace, setTime, setStart, setKcal}, {distance: 0, pace: 0, duration: 0, start: false, kcal: 0})

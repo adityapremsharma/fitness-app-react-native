@@ -1,11 +1,13 @@
 import React from 'react'
-import { View, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import MapView, {Marker, Polyline} from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as turf from '@turf/turf'
+import BottomSheet from 'react-native-simple-bottom-sheet';
 
 import Monitor from './Monitor'
 import {Context as FitnessContext} from "../context/FitnessContext"
+import LiveDetails from './LiveDetails';
 
 export default class Run extends React.Component {
     map = React.createRef()
@@ -31,7 +33,7 @@ export default class Run extends React.Component {
 
     computePace(delta, lastPosition, position) {
         const time = (position.timestamp - lastPosition.timestamp) / 1000
-        const pace = Math.round(delta / time)
+        const pace = delta / time
         
         return {pace, time}
     }
@@ -48,7 +50,7 @@ export default class Run extends React.Component {
         const {state, setDistance, setPace, setTime} = this.context
         // this.setState({pace: this.computePace(delta, lastPosition, position)})
         state.start ? pace >= 0 && setPace(pace) : null
-        state.start ? time >= 0 && setTime(state.duration + time) : null
+        state.start ? time >= 0 && setTime(time) : null
     
         // this.setState({distance: this.state.distance + this.distanceBetween(lastPosition, position)})
         state.start ? setDistance(state.distance + this.distanceBetween(lastPosition, position)) : null
@@ -59,15 +61,18 @@ export default class Run extends React.Component {
         const {latitude, longitude} = this.props
         const {trackPosition} = this.state
         const currentPosition = trackPosition.length === 0 ? {coords: {latitude, longitude}} : trackPosition[trackPosition.length - 1]
-        const {state: {distance, pace, start}} = this.context
+        const {state: {start}} = this.context
 
     return (
     <View style={styles.container}>
-    <Monitor {...{distance, pace}} />
+    <Monitor />
       <MapView ref={this.map} style={styles.map} initialRegion={{latitude, longitude, latitudeDelta: 0.001, longitudeDelta: 0.01}}>
         <Marker coordinate={currentPosition.coords} />
-          <Polyline coordinates={trackPosition.map(position => position.coords)} strokeWidth={10} strokeColor={start ? "rgba(57,255,20, .6)" : "rgba(233, 30, 99, .6)"} />
+          <Polyline coordinates={trackPosition.map(position => position.coords)} strokeWidth={10} strokeColor={start ? "rgba(57, 255 ,20, .6)" : "rgba(233, 30, 99, .6)"} />
       </MapView>
+      <BottomSheet isOpen={false} wrapperStyle={{backgroundColor: "rgba(0, 0, 0, .8)"}} sliderMinHeight="30">
+        <LiveDetails />
+      </BottomSheet>
     </View>
     )
 }
