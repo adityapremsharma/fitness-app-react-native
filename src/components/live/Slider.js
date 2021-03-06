@@ -3,14 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-nati
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons'; 
 
-import {Context as FitnessContext} from "../context/FitnessContext"
+import {Context as FitnessContext} from "../../context/FitnessContext"
 
-export default function LiveDetails() {
+export default function Slider() {
     const {state: {distance, duration, pace, start, kcal}, setKcal} = useContext(FitnessContext)
     const weight = 80
 
     const [btnSelected, setButtonSelected] = useState("run")
-    const backgroundColor = start ? {backgroundColor: "rgba(57, 255 ,20, .6)"} : {backgroundColor: "#39FF14"}
+    const backgroundColor = start ? {backgroundColor: "rgba(57, 255 ,20, .5)"} : {backgroundColor: "#39FF14"}
 
     const caloriesBurnt = () => {
         switch(btnSelected) {
@@ -70,7 +70,9 @@ export default function LiveDetails() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.calories}>{Math.round(kcal)}<Text style={{fontSize: 32}}>/kcal</Text></Text>
+        <View style={styles.card}>
+            <Text style={styles.calories}>{Math.round(kcal)}<Text style={{fontSize: 32}}> kcal</Text></Text>
+            </View>
             <View style={styles.buttonContainer}>
             <TouchableOpacity
                         style={[styles.button, backgroundColor]}
@@ -79,8 +81,8 @@ export default function LiveDetails() {
                     </View>
             <View style={styles.miniButtonContainer}>
             <TouchableOpacity title="run" onPress={() => setButtonSelected("run")} style={btnSelected === "run" ? styles.btnSelected : styles.btnNotSelected} ><View style={styles.icon}><FontAwesome5 name="running" size={24} color="#e91e63" /></View></TouchableOpacity>
-            <TouchableOpacity title="walk" onPress={() => setButtonSelected("walk")} style={btnSelected === "walk" ? styles.btnSelected : styles.btnNotSelected} ><View style={styles.icon}><FontAwesome5 name="walking" size={24} color="#e91e63" /></View></TouchableOpacity>
-            <TouchableOpacity title="bicycle" onPress={() => setButtonSelected("cycle")} style={btnSelected === "cycle" ? styles.btnSelected : styles.btnNotSelected} ><View style={styles.icon2}><Ionicons name="bicycle" size={24} color="#e91e63" /></View></TouchableOpacity>
+            <TouchableOpacity title="walk" onPress={() => setButtonSelected("walk")} style={btnSelected === "walk" ? styles.btnSelected : styles.btnNotSelected} ><View style={styles.icon2}><FontAwesome5 name="walking" size={24} color="#e91e63" /></View></TouchableOpacity>
+            <TouchableOpacity title="bicycle" onPress={() => setButtonSelected("cycle")} style={btnSelected === "cycle" ? styles.btnSelected : styles.btnNotSelected} ><View style={styles.icon3}><Ionicons name="bicycle" size={24} color="#e91e63" /></View></TouchableOpacity>
             </View>
         </View>
     )
@@ -90,7 +92,13 @@ const styles = StyleSheet.create({
     container: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
-        // flexDirection: "column",
+    },
+    card: {
+        padding: "5%",
+        width: "75%",
+        backgroundColor: "rgba(101, 101, 101, 0.2)",
+        left: "7.%",
+        borderRadius: 20,
     },
     calories: {
         color: "#777", 
@@ -99,8 +107,8 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         alignItems: "center",
-        marginRight: 40,
-        marginTop: 30
+        marginRight: "10%",
+        marginTop: "6%"
     },
     button: {
     alignItems: "center",
@@ -111,16 +119,20 @@ const styles = StyleSheet.create({
     miniButtonContainer: {
         flexDirection: "row",
         justifyContent: "space-evenly",
-        marginRight: 40,
-        bottom: -40
+        marginRight: "10%",
+        bottom: "-6%"
     },
     icon: {
-        left: 16,
-        top: 12
+        left: "30%",
+        top: "25%"
     },
     icon2: {
-        left: 12,
-        top: 12
+        left: "32%",
+        top: "24%"
+    },
+    icon3: {
+        left: "25%",
+        top: "23%"
     },
     btnSelected: {
         backgroundColor: "#39FF14",

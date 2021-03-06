@@ -6,10 +6,10 @@ import * as turf from '@turf/turf'
 import BottomSheet from 'react-native-simple-bottom-sheet';
 
 import Monitor from './Monitor'
-import {Context as FitnessContext} from "../context/FitnessContext"
-import LiveDetails from './LiveDetails';
+import {Context as FitnessContext} from "../../context/FitnessContext"
+import Slider from "./Slider"
 
-export default class Run extends React.Component {
+export default class Map extends React.Component {
     map = React.createRef()
 
     state = {trackPosition: []}
@@ -28,7 +28,7 @@ export default class Run extends React.Component {
         const from = turf.point([origin.coords.longitude, origin.coords.latitude]);
         const to = turf.point([destination.coords.longitude, destination.coords.latitude]);
         const options = {units: 'meters'};
-        return Math.round(turf.distance(from, to, options));      
+        return turf.distance(from, to, options);      
     }
 
     computePace(delta, lastPosition, position) {
@@ -71,7 +71,7 @@ export default class Run extends React.Component {
           <Polyline coordinates={trackPosition.map(position => position.coords)} strokeWidth={10} strokeColor={start ? "rgba(57, 255 ,20, .6)" : "rgba(233, 30, 99, .6)"} />
       </MapView>
       <BottomSheet isOpen={false} wrapperStyle={{backgroundColor: "rgba(0, 0, 0, .8)"}} sliderMinHeight="30">
-        <LiveDetails />
+        <Slider />
       </BottomSheet>
     </View>
     )

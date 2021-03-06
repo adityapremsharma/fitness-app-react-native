@@ -3,9 +3,9 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 
-import Run from '../components/Run'
+import Map from '../components/live/Map'
 
-export default function Main() {
+export default function Live() {
   const [ready, setReady] = useState(false)
   const [latitude, setLatitude] = useState(0)
   const [longitude, setLongitude] = useState(0)
@@ -32,7 +32,7 @@ export default function Main() {
   }
   return (
     <SafeAreaProvider>
-      <Run distance={200} latitude={latitude} longitude={longitude} />
+      <Map distance={200} latitude={latitude} longitude={longitude} />
     </SafeAreaProvider>
   );
 }

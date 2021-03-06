@@ -3,12 +3,12 @@ import { View, SafeAreaView, Text, StyleSheet, Dimensions, TouchableOpacity } fr
 import { Ionicons } from '@expo/vector-icons'; 
 import TimeFormat from "hh-mm-ss"
 
-import {Context as FitnessContext} from "../context/FitnessContext"
+import {Context as FitnessContext} from "../../context/FitnessContext"
 
 export default function Monitor() {
 
     const [duration, setDuration] = useState(0)
-    const {state: {start, distance, pace}, setStart} = useContext(FitnessContext)
+    const {state: {start, distance, pace, kcal}, setStart} = useContext(FitnessContext)
 
     useEffect(() => {
         const interval = start ? setInterval(() => setDuration(duration + 1), 1000) : null
@@ -22,8 +22,10 @@ export default function Monitor() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.distance}>
-            <Text style={styles.textStyle}>{distance}<Text style={{fontSize: 36}}> m</Text></Text>
+            <View style={styles.monitor}>
+            <View style={styles.card}>
+            <Text style={styles.distance}>{Math.round(distance)}<Text style={{fontSize: 36}}> m</Text></Text>
+            </View>
             </View>
             <View style={styles.row}>
                 <View>
@@ -57,19 +59,26 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height / 1.8,
         backgroundColor: "black"
     },
-    distance: {
+    monitor: {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        marginTop: 50
+        marginTop: "20%"
     },
-    textStyle: {fontSize: 72, color: "#777"},
+    card: {
+        padding: "5%",
+        width: "75%",
+        backgroundColor: "rgba(101, 101, 101, 0.2)",
+        borderRadius: 20,
+        
+    },
+    distance: {fontSize: 72, color: "#777", textAlign: "center"},
     row: {
         // flex: .4,
         flexDirection: "row",
         justifyContent: "space-between",
-        marginHorizontal: 30,
-        marginBottom: 30
+        marginHorizontal: "10%",
+        marginBottom: "9%"
     },
     button: {
     alignItems: "center",

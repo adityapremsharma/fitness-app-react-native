@@ -21,7 +21,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import Main from "./src/screens/Main"
+import Live from "./src/screens/Live"
 import { Provider as FitnessProvider } from './src/context/FitnessContext';
 
 function Feed() {
@@ -63,7 +63,7 @@ const MyTabs = () => {
       />
       <Tab.Screen
         name="Main"
-        component={Main}
+        component={Live}
         options={{
           tabBarLabel: 'Live',
           tabBarIcon: ({ color, size }) => (
