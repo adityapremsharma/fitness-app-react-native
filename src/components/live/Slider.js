@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'; 
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 
 import {Context as FitnessContext} from "../../context/FitnessContext"
 

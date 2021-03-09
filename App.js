@@ -1,27 +1,15 @@
-
-// import {createAppContainer} from "react-navigation"
-// import {createStackNavigator} from "react-navigation-stack"
-// import Main from "./src/screens/Main";
-
-// const navigator = createStackNavigator({
-//   Main: Main
-// }, {
-//   initialRouteName: "Main",
-//   defaultNavigationOptions: {
-//     title: "Fitness App"
-//   }
-// })
-
-// export default createAppContainer(navigator)
-
-
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as firebase from "firebase"
 
-import Live from "./src/screens/Live"
+import Landing from "./src/screens/authentication/Landing"
+import LogIn from "./src/screens/authentication/LogIn"
+import SignUp from "./src/screens/authentication/SignUp"
+import Live from "./src/screens/bottomTabNavigationScreens/Live"
 import { Provider as FitnessProvider } from './src/context/FitnessContext';
 
 function Feed() {
@@ -95,12 +83,33 @@ const MyTabs = () => {
   );
 }
 
+const Stack = createStackNavigator();
 
-// const App =  NavigationContainer(MyTabs)
 const App = () => {
   return (
     <NavigationContainer>
-      <MyTabs />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Landing"
+          component={Landing}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="LogIn"
+          component={LogIn}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen 
+        name="MyTabs" 
+        component={MyTabs} 
+        options={{headerShown: false}}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
