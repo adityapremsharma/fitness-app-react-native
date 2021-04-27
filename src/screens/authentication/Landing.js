@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native'
 import { Video } from 'expo-av';
+import {Context as UserContext} from "../../context/UserContext"
 
 export default function Landing({navigation}) {
+        const {state: {guestUser}, setGuestUser} = useContext(UserContext)
     return (
         <View style={{flex: 1, justifyContent: "center"}}>
             <Video
@@ -16,7 +18,7 @@ export default function Landing({navigation}) {
             />
             <TouchableOpacity onPress={() => navigation.navigate("LogIn")} style={styles.button}><Text style={styles.text}>Log In</Text></TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("SignUp")} style={styles.button}><Text style={styles.text}>Sign Up</Text></TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("MyTabs")} style={styles.button}><Text style={styles.text}>Enter as a Guest</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("BottomTabNavigation")} style={styles.button}><Text style={styles.text}>Enter as a Guest</Text></TouchableOpacity>
             
         </View>
     )
